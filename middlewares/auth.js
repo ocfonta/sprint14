@@ -6,15 +6,11 @@ const handleAuthError = (res) => {
     .send({ message: 'Необходима авторизация' });
 };
 
-const extractBearerToken = (header) => header.replace('Bearer ', '');
-
 module.exports = (req, res, next) => {
-  const { authorization } = req.headers;
-
-  if (!authorization || !authorization.startsWith('Bearer ')) {
+  const { jwt: token } = req.cookies;
+  if (!jwt) {
     return handleAuthError(res);
   }
-  const token = extractBearerToken(authorization);
   let payload;
 
   try {
