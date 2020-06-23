@@ -14,10 +14,7 @@ const createUser = (req, res) => {
     email,
     password,
   } = req.body;
-  if (password == null) {
-    res.status(400).send({ message: 'Пароль не передан' });
-  }
-  if (password.length >= 6) {
+  if (password != null && password.length >= 6) {
     bcrypt.hash(password, 10)
       .then((hashPassword) => User.create({
         name,
